@@ -22,7 +22,7 @@ The goal is to provide visibility into process creation activity and allow analy
 - Log source: Security
 - EventCode: 4688 (Process Creation)
 
----
+
 
 ## Detection Logic
 
@@ -31,3 +31,13 @@ The goal is to provide visibility into process creation activity and allow analy
 ```spl
 index=windows source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
 | table _time host User Image ParentImage CommandLine
+---
+
+### Windows Security – Process Creation (EventCode 4688)
+
+```spl
+index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
+| table _time host SubjectUserName NewProcessName ParentProcessName CommandLine ProcessId ParentProcessId
+- 
+
+---
