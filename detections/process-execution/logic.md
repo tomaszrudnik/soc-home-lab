@@ -22,8 +22,6 @@ The goal is to provide visibility into process creation activity and allow analy
 - Log source: Security
 - EventCode: 4688 (Process Creation)
 
-
-
 ## Detection Logic
 
 ### Sysmon – Process Create (EventCode 1)
@@ -43,9 +41,6 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
 ##### Splunk – EventCode 4688 (Ingest validation)
 
 ![Splunk EventCode 4688](../../docs/screenshots/splunk/splunk_event_4688_process_creation.png)
-
-
-
 
 
 #### Suspicious PowerShell Execution (Obfuscation)
