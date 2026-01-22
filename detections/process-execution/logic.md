@@ -170,7 +170,8 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
 
 #### Example Windows Event (4688 – Process Creation)
 
-![Event 4688 XML](docs/sceenshots/windows/event_4688_process_creation_xml.png)
+![Event 4688 XML](../../docs/screenshots/windows/event_4688_process_creation_xml.png)
+
 
 
 
