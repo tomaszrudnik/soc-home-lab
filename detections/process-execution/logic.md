@@ -33,9 +33,6 @@ using regular expressions, rather than relying on extracted fields such as:
 - ParentProcessName
 - CommandLine
 
-- 
-
-
 ### Sysmon – Process Create (EventCode 1)
 
 ```spl
@@ -58,6 +55,9 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
 
 This search uses token-based matching rather than exact string comparison,
 making it reliable even when XML field extraction is unavailable.
+The term `powershell` is treated as a search token and matched anywhere in the raw event,
+including executable paths and command-line arguments.
+
 
 ```spl
 
@@ -67,9 +67,8 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688 powershell
 
 ```
 
-##### Splunk – EventCode 4688 (Ingest validation)
-
-##### Simulated attack – C2 proof (redacted)
+#### Splunk – EventCode 4688 (Ingest validation)
+#### Simulated attack – C2 proof (redacted)
 
 The screenshot below confirms an active C2 session on the target host.
 Only post-compromise context is shown. No attack techniques or payloads are exposed.
@@ -171,6 +170,10 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
 #### Example Windows Event (4688 – Process Creation)
 
 ![Event 4688 XML](../../docs/screenshots/windows/event_4688_process_creation_xml.png)
+
+The screenshot shows a raw XML view of Windows Security Event 4688,
+used to validate field availability and justify raw-based detection logic.
+
 
 
 
