@@ -174,5 +174,16 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
 The screenshot shows a raw XML view of Windows Security Event 4688,
 used to validate field availability and justify raw-based detection logic.
 
+## Dashboard
+
+This detection is visualized using a Splunk dashboard built directly on the searches defined above.
+The dashboard is designed for SOC L1 triage and focuses on:
+- process creation volume
+- suspicious PowerShell usage
+- execution from user-writable paths
+- potential post-compromise activity
+
+Detection panels operate on raw XML (`_raw`) to avoid dependency on field extraction.
+
 
 ---
