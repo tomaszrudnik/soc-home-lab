@@ -40,6 +40,15 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
 
 ##### Splunk – EventCode 4688 (Ingest validation)
 
+##### Simulated attack – C2 proof (redacted)
+
+The screenshot below confirms an active C2 session on the target host.
+Only post-compromise context is shown. No attack techniques or payloads are exposed.
+
+![C2 proof – getuid](../../docs/screenshots/kali-simulation/c2_getuid_session.png)
+
+
+
 #### Suspicious PowerShell Execution (Obfuscation)
 
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
