@@ -78,6 +78,7 @@ Only post-compromise context is shown. No attack techniques or payloads are expo
 
 
 
+
 #### Suspicious PowerShell Execution (Obfuscation)
 
 ```spl
