@@ -24,19 +24,48 @@ The goal is to provide visibility into process creation activity and allow analy
 
 ## Detection Logic
 
+Windows Security Event 4688 is ingested as XML (`XmlWinEventLog:Security`).
+Field extraction for this log source may be incomplete or unavailable, depending on the ingestion method.
+
+For this reason, all core detection logic operates directly on raw XML data (`_raw`)
+using regular expressions, rather than relying on extracted fields such as:
+- NewProcessName
+- ParentProcessName
+- CommandLine
+
+- 
+
+
 ### Sysmon – Process Create (EventCode 1)
 
-```
+```spl
 index=windows source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
 | table _time host User Image ParentImage CommandLine
----
+
+```
 
 ### Windows Security – Process Creation (EventCode 4688)
 
+**Baseline / ingest validation**
+
+```spl
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
-| search _raw="powershell.exe"
-| table _time host SubjectUserName ParentProcessName NewProcessName CommandLine
+| table _time host _raw
 | sort -_time
+
+```
+**PowerShell triage (token search)**
+
+This search uses token-based matching rather than exact string comparison,
+making it reliable even when XML field extraction is unavailable.
+
+```spl
+
+index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688 powershell
+| table _time host _raw
+| sort -_time
+
+```
 
 ##### Splunk – EventCode 4688 (Ingest validation)
 
@@ -51,26 +80,51 @@ Only post-compromise context is shown. No attack techniques or payloads are expo
 
 #### Suspicious PowerShell Execution (Obfuscation)
 
+```spl
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
-| search _raw="powershell.exe"
-| search _raw="-enc" OR _raw="-encodedcommand" OR _raw="-nop" OR _raw="-w hidden"
-| table _time host SubjectUserName ParentProcessName NewProcessName CommandLine
+| regex _raw="(?i)powershell(\.exe)?"
+| regex _raw="(?i)\s-(enc|encodedcommand|nop|w\s+hidden)\b"
+| regex _raw!="(?i)SplunkUniversalForwarder"
+| table _time host _raw
 | sort -_time
+
+```
 
 #### Suspicious Execution from User Writable Paths
 
+```spl
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
-| search _raw="\\Temp\\" OR _raw="\\AppData\\"
-| table _time host SubjectUserName ParentProcessName NewProcessName CommandLine
+| regex _raw="(?i)\\users\\[^\\]+\\(appdata|temp)\\"
+| regex _raw!="(?i)SplunkUniversalForwarder"
+| table _time host _raw
 | sort -_time
 
-#### Abnormal Parent–Child Process Relationship
+```
+#### Abnormal Parent–Child Process Relationship (LOLBIN + user-writable staging)
 
+```spl
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
-| search _raw="powershell.exe" OR _raw="cmd.exe" OR _raw="mshta.exe" OR _raw="rundll32.exe"
-| search ParentProcessName!="C:\\Windows\\System32\\explorer.exe"
-| table _time host SubjectUserName ParentProcessName NewProcessName CommandLine
+| regex _raw="(?i)(powershell|cmd|mshta|rundll32)\.exe"
+| regex _raw="(?i)\\users\\[^\\]+\\(appdata|temp)\\"
+| regex _raw!="(?i)SplunkUniversalForwarder"
+| table _time host _raw
 | sort -_time
+
+```
+## Optional: XML Field Extraction (Analysis Only)
+
+The following extractions improve investigation readability.
+Detection logic must not depend on these fields.
+
+```spl
+index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
+| rex field=_raw "Data Name='NewProcessName'>(?<NewProcessName>[^<]+)"
+| rex field=_raw "Data Name='ParentProcessName'>(?<ParentProcessName>[^<]+)"
+| rex field=_raw "Data Name='CommandLine'>(?<CommandLine>[^<]+)"
+| table _time host ParentProcessName NewProcessName CommandLine
+| sort -_time
+
+```
 
 
 ## MITRE ATT&CK Mapping
