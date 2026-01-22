@@ -175,9 +175,4 @@ The screenshot shows a raw XML view of Windows Security Event 4688,
 used to validate field availability and justify raw-based detection logic.
 
 
-
-
-
-- 
-
 ---
