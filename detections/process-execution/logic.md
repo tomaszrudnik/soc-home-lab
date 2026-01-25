@@ -189,13 +189,15 @@ Detection panels operate on raw XML (`_raw`) to avoid dependency on field extrac
 
 The screenshots below show the full Splunk dashboard from top to bottom.
 
-The dashboard was validated using a simulated encoded PowerShell execution.
-The high-risk indicator turns red when obfuscated PowerShell activity is detected.
+The dashboard validates the **Suspicious Process Execution** detection, including:
+- raw process creation visibility (EventCode 4688)
+- encoded / obfuscated PowerShell execution
+- high-risk indicator for malicious execution patterns
 
-This validation confirms that the detection logic and dashboard visualization
-work together as intended for SOC L1 triage.
+The high-risk indicator turns red when **obfuscated PowerShell execution** is detected.
 
-**Obfuscated PowerShell execution detected and visualized in Splunk dashboard.**
+This confirms that the detection logic and dashboard visualization work together as intended for SOC L1 triage.
+
 
 ![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution1.png)
 
