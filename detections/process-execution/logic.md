@@ -207,4 +207,5 @@ work together as intended for SOC L1 triage.
 
 ![Dashboard – end-to-end validation](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution5.png)
 
+
 ---
