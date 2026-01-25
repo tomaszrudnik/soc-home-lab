@@ -78,4 +78,35 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4625
 | where failures >= 10
 | sort - failures
 ```
+### Detection B: Success after multiple failures (4624 after 4625)
+
+This detection identifies a **successful logon (4624)** that occurs shortly after
+multiple **failed logons (4625)** for the same user on the same host.
+
+It is useful for spotting cases where password guessing transitions into a valid login.
+
+**Signal**
+- `failed_count >= 5` within `5 minutes`
+- `success_count >= 1` in the same time window
+- grouped by `user + host`
+
+```spl
+index=windows sourcetype="XmlWinEventLog:Security" (EventCode=4624 OR EventCode=4625)
+| eval user=coalesce(user, Account_Name, TargetUserName)
+| eval is_fail=if(EventCode=4625,1,0)
+| eval is_success=if(EventCode=4624,1,0)
+| bin _time span=5m
+| stats
+    sum(is_fail) as failed_count
+    sum(is_success) as success_count
+    values(LogonType) as logon_types
+    values(IpAddress) as src_ip
+    by _time, host, user
+| where failed_count >= 5 AND success_count >= 1
+| sort - _time
+```
+
+
+
+
 
