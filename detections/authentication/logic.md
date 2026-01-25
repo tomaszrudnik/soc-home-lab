@@ -30,6 +30,10 @@ index=windows sourcetype="XmlWinEventLog:Security" (EventCode=4624 OR EventCode=
 | sort - count
 
 ```
+The following screenshot confirms successful ingestion of Windows Security
+authentication events and provides baseline visibility into successful
+versus failed logon activity.
+
 ![Authentication volume: 4624 vs 4625](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/panel_4624_vs_4625.png)
 
 
