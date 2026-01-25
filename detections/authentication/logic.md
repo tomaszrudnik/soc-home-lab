@@ -48,3 +48,20 @@ The simulation focused on:
 
 All activity was executed against a **test Windows host** with full authorization,
 strictly for defensive detection validation.
+
+### Authentication Methods Observed (LogonType Mapping)
+
+During the lab validation, different access methods produced different **LogonType** values:
+
+- **LogonType 3 (Network)**  
+  Typical for remote authentication over network protocols (e.g., SMB / WinRM).  
+  Used to spot password guessing against exposed services.
+
+- **LogonType 10 (RemoteInteractive)**  
+  Typical for interactive remote logons (e.g., RDP).  
+  Useful for detecting brute-force attempts targeting remote desktop access.
+
+- **EventCode 4648 (Explicit credentials used)**  
+  Indicates credentials were provided explicitly (credential reuse / “run as” style behavior).  
+  Helpful for spotting lateral movement patterns when combined with 4624/4625.
+
