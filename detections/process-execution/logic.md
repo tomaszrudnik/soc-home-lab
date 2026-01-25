@@ -205,9 +205,9 @@ parent process, and execution context are available without reliance on field ex
 
 
 
-![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution1.png)
+![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciuousProcessExecution1.png)
 
-![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution2.png)
+![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution2.png)
 
 
 ### Obfuscated / Encoded PowerShell Execution Detection
@@ -220,7 +220,7 @@ or malware execution techniques.
 
 
 
-![Dashboard – high risk indicator](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution3.png)
+![Dashboard – high risk indicator](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution3.png)
 
 ### Encoded PowerShell Correlation View
 
@@ -232,7 +232,7 @@ PowerShell execution across events.
 
 
 
-![Dashboard – raw EventCode 4688](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution4.png)
+![Dashboard – raw EventCode 4688](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution4.png)
 
 ### High-Risk Indicator – Obfuscated PowerShell
 
@@ -242,7 +242,7 @@ The indicator turns **red** when activity is present, providing a clear **HIGH R
 for SOC L1 analysts and enabling immediate prioritization.
 
 
-![Dashboard – end-to-end validation](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution5.png)
+![Dashboard – end-to-end validation](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution5.png)
 
 
 ---
