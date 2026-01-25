@@ -205,7 +205,7 @@ parent process, and execution context are available without reliance on field ex
 
 
 
-![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciuousProcessExecution1.png)
+![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution1.png)
 
 ![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution2.png)
 
