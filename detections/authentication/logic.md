@@ -84,6 +84,16 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4625
 | where failures >= 10
 | sort - failures
 ```
+#### Evidence — Detection A: Failed Logons Threshold (4625)
+
+The screenshot below shows hosts generating a high volume of failed
+authentication attempts (EventCode 4625), exceeding the defined threshold.
+This signal is used by SOC L1 analysts to prioritize authentication abuse triage.
+
+![Detection A — Failed logons threshold](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/detection_a_failed_logons_threshold.png)
+
+
+
 ### Detection B: Success after multiple failures (4624 after 4625)
 
 This detection identifies a **successful logon (4624)** that occurs shortly after
