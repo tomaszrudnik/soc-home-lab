@@ -30,6 +30,8 @@ index=windows sourcetype="XmlWinEventLog:Security" (EventCode=4624 OR EventCode=
 | sort - count
 
 ```
+![Authentication volume: 4624 vs 4625](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/panel_4624_vs_4625.png)
+
 
 
 ## Attack Simulation (Lab Context)
