@@ -149,4 +149,19 @@ These panels provide:
 ![Failed Logons by Host (4625) — extended view](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/panel_failures_by_host2.png)
 
 
+## MITRE ATT&CK Mapping
+
+The authentication abuse activity detected in this use case maps to the
+following MITRE ATT&CK techniques:
+
+- **T1110 – Brute Force**  
+  Repeated failed authentication attempts (EventCode 4625) used to guess
+  valid credentials.
+
+- **T1078 – Valid Accounts**  
+  Successful authentication (EventCode 4624) following multiple failures,
+  indicating potential use of compromised or guessed credentials.
+
+These techniques are commonly observed during initial access or lateral
+movement phases and are relevant for SOC L1 detection and triage.
 
