@@ -81,11 +81,11 @@ Only post-compromise context is shown. No attack techniques or payloads are expo
 
 ```spl
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
+powershell ("-enc" OR "-encodedcommand" OR "-nop" OR "-w hidden" OR "-windowstyle hidden")
 | regex _raw="(?i)powershell(\.exe)?"
-| regex _raw="(?i)\s-(enc|encodedcommand|nop|w\s+hidden)\b"
-| regex _raw!="(?i)SplunkUniversalForwarder"
 | table _time host _raw
-| sort -_time
+| sort - _time
+
 
 ```
 
@@ -93,21 +93,22 @@ index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
 
 ```spl
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
-| regex _raw="(?i)\\users\\[^\\]+\\(appdata|temp)\\"
-| regex _raw!="(?i)SplunkUniversalForwarder"
+("\\Users\\" AND ("\\AppData\\" OR "\\Temp\\"))
 | table _time host _raw
-| sort -_time
+| sort - _time
+
 
 ```
 #### Abnormal Parent–Child Process Relationship (LOLBIN + user-writable staging)
 
 ```spl
 index=windows sourcetype="XmlWinEventLog:Security" EventCode=4688
-| regex _raw="(?i)(powershell|cmd|mshta|rundll32)\.exe"
-| regex _raw="(?i)\\users\\[^\\]+\\(appdata|temp)\\"
-| regex _raw!="(?i)SplunkUniversalForwarder"
+("powershell.exe" OR "cmd.exe" OR "mshta.exe" OR "rundll32.exe")
+("\\Users\\" AND ("\\AppData\\" OR "\\Temp\\"))
+NOT "SplunkUniversalForwarder"
 | table _time host _raw
-| sort -_time
+| sort - _time
+
 
 ```
 ## Optional: XML Field Extraction (Analysis Only)
