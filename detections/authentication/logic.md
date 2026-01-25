@@ -65,3 +65,17 @@ During the lab validation, different access methods produced different **LogonTy
   Indicates credentials were provided explicitly (credential reuse / “run as” style behavior).  
   Helpful for spotting lateral movement patterns when combined with 4624/4625.
 
+  ---
+
+### Detection A: Brute-force / password guessing (failed logons threshold)
+
+This detection flags unusually high volumes of failed authentication attempts (**4625**) on a host.
+It is a simple SOC L1 signal to prioritize triage.
+
+```spl
+index=windows sourcetype="XmlWinEventLog:Security" EventCode=4625
+| stats count as failures by host
+| where failures >= 10
+| sort - failures
+```
+
