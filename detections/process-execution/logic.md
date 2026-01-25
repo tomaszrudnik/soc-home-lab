@@ -207,7 +207,7 @@ This confirms that the detection logic and dashboard visualization work together
 
 ![Dashboard – raw EventCode 4688](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution4.png)
 
-![Dashboard – end-to-end validation](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution5.png)
+![Dashboard – end-to-end validation](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution5.png)
 
 
 ---
