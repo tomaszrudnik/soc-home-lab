@@ -185,5 +185,16 @@ The dashboard is designed for SOC L1 triage and focuses on:
 
 Detection panels operate on raw XML (`_raw`) to avoid dependency on field extraction.
 
+## Dashboard Validation (Evidence)
+
+The screenshots below show the full Splunk dashboard from top to bottom.
+
+The dashboard was validated using a simulated encoded PowerShell execution.
+The high-risk indicator turns red when obfuscated PowerShell activity is detected.
+
+This validation confirms that the detection logic and dashboard visualization
+work together as intended for SOC L1 triage.
+
+
 
 ---
