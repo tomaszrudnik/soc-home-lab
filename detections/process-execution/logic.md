@@ -187,16 +187,18 @@ Detection panels operate on raw XML (`_raw`) to avoid dependency on field extrac
 
 ## Dashboard Validation (Evidence)
 
-The screenshots below document the **Windows – Suspicious Process Execution** dashboard,
-showing end-to-end validation of the detection logic using a simulated encoded PowerShell execution.
+The following screenshots document the **Windows – Suspicious Process Execution** Splunk dashboard.
+They provide end-to-end validation of the detection logic using simulated encoded PowerShell execution
+captured via Windows Security EventCode 4688.
 
-The dashboard validates:
-- raw process creation visibility (EventCode 4688)
-- detection of encoded / obfuscated PowerShell execution
-- identification of execution from user-writable paths
-- high-risk indicator for malicious execution patterns
 
----
+### Raw Process Creation Visibility (EventCode 4688)
+
+The screenshots below show raw Windows Security EventCode **4688 – Process Creation** events
+displayed directly from `_raw` XML.
+
+This view confirms that process creation telemetry is correctly ingested and that full command-line,
+parent process, and execution context are available without reliance on field extraction.
 
 
 
@@ -204,9 +206,38 @@ The dashboard validates:
 
 ![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution2.png)
 
+
+### Obfuscated / Encoded PowerShell Execution Detection
+
+This screenshot presents detected PowerShell executions that include obfuscation indicators such as
+`-EncodedCommand`, hidden execution, and non-interactive flags.
+
+The panel highlights suspicious PowerShell activity commonly associated with post-exploitation
+or malware execution techniques.
+
+
+
 ![Dashboard – high risk indicator](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution3.png)
 
+### Encoded PowerShell Correlation View
+
+This view shows correlated encoded PowerShell executions extracted from EventCode 4688,
+including timestamps, affected hosts, and full encoded command lines.
+
+It confirms that the detection consistently identifies multiple occurrences of obfuscated
+PowerShell execution across events.
+
+
+
 ![Dashboard – raw EventCode 4688](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution4.png)
+
+### High-Risk Indicator – Obfuscated PowerShell
+
+This single-value panel displays the total number of detected obfuscated PowerShell executions.
+
+The indicator turns **red** when activity is present, providing a clear **HIGH RISK** signal
+for SOC L1 analysts and enabling immediate prioritization.
+
 
 ![Dashboard – end-to-end validation](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution5.png)
 
