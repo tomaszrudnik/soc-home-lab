@@ -25,6 +25,8 @@ All security-related logs from the Windows endpoint are centrally collected and 
 - Alert triage and basic incident response (L1)
 - Incident documentation and escalation decisions
 - Mapping detections to **MITRE ATT&CK**
+- SOC dashboards for rapid alert triage and visibility
+
 
 ---
 
@@ -59,4 +61,5 @@ Details of the scenario and analysis are documented in the `docs/` directory.
 
 ## Project Status
 Work in progress – additional detections, dashboards, runbooks and screenshots are being added.
+
 
