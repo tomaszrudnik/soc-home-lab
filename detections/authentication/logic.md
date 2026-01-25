@@ -133,6 +133,45 @@ for the same user and host within a short time window.
 
 ![Detection B — Success after failures](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/detection_b_success_after_failures.png)
 
+## Dashboard — Authentication Abuse (Evidence)
+
+The following dashboard panels provide SOC L1 analysts with situational awareness
+and triage context for Windows authentication abuse detections (4624/4625).
+
+### Failed Logons by Host (4625)
+
+This panel highlights hosts generating high volumes of failed authentication
+attempts and serves as an entry point for authentication abuse investigation.
+
+![Failed Logons by Host (4625) — overview](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/panel_failures_by_host.png)
+
+![Failed Logons by Host (4625) — full view](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/panel_failures_by_host2.png)
+
+---
+
+### Success after Multiple Failures
+
+This panel visualizes the correlation used in Detection B, where multiple failed
+network logons are followed by a successful authentication for the same user and host.
+
+![Success after failures](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/panel_success_after_failures.png)
+
+---
+
+### Failed Logons — High Risk Indicator
+
+A single-value panel used as a high-level risk indicator for spikes in failed
+authentication attempts.
+
+![Failed Logons High Risk](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/single_value_failed_logons_high_risk.png)
+
+---
+
+### Dashboard Overview
+
+Combined view of authentication abuse panels used for SOC L1 triage and prioritization.
+
+![Authentication Abuse Dashboard Overview](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/dashboard_authentication_abuse_overview.png)
 
 
 
