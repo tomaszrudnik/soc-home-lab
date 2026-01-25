@@ -28,7 +28,9 @@ Windows Security Event 4688 is ingested as XML (`XmlWinEventLog:Security`).
 Field extraction for this log source may be incomplete or unavailable, depending on the ingestion method.
 
 For this reason, all core detection logic operates directly on raw XML data (`_raw`)
-using regular expressions, rather than relying on extracted fields such as:
+using token-based matching and lightweight regular expressions, rather than relying
+on extracted fields such as:
+
 - NewProcessName
 - ParentProcessName
 - CommandLine
