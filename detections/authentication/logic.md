@@ -96,15 +96,20 @@ This signal is used by SOC L1 analysts to prioritize authentication abuse triage
 
 ### Detection B: Success after multiple failures (4624 after 4625)
 
-This detection identifies a **successful logon (4624)** that occurs shortly after
-multiple **failed logons (4625)** for the same user on the same host.
+This detection identifies a successful logon (EventCode 4624) that occurs
+shortly after multiple failed logon attempts (EventCode 4625) for the same
+user on the same host.
 
-It is useful for spotting cases where password guessing transitions into a valid login.
+It is useful for spotting scenarios where password guessing or authentication
+abuse transitions into a valid login.
 
-**Signal**
-- `failed_count >= 5` within `5 minutes`
-- `success_count >= 1` in the same time window
-- grouped by `user + host`
+#### Signal
+- failed_net_count >= 5 within 10 minutes  
+- success_count >= 1 in the same time window  
+- grouped by user + host  
+- focused on network-based authentication (LogonType 3)
+
+#### Detection Logic (SOC L1)
 
 ```spl
 index=windows sourcetype="XmlWinEventLog:Security" (EventCode=4624 OR EventCode=4625)
@@ -114,7 +119,10 @@ index=windows sourcetype="XmlWinEventLog:Security" (EventCode=4624 OR EventCode=
 | eval is_fail_net=if(EventCode=4625 AND logon_type="3",1,0)
 | eval is_success=if(EventCode=4624,1,0)
 | bin _time span=10m
-| stats sum(is_fail_net) as failed_net_count sum(is_success) as success_count by _time, host, user
+| stats
+    sum(is_fail_net) as failed_net_count
+    sum(is_success) as success_count
+    by _time, host, user
 | where failed_net_count >= 5 AND success_count >= 1
 | sort - _time
 
