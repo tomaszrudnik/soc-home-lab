@@ -199,7 +199,7 @@ work together as intended for SOC L1 triage.
 
 ![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution1.png)
 
-![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution2.png)
+![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution2.png)
 
 ![Dashboard – high risk indicator](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution3.png)
 
