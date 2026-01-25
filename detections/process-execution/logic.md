@@ -187,16 +187,17 @@ Detection panels operate on raw XML (`_raw`) to avoid dependency on field extrac
 
 ## Dashboard Validation (Evidence)
 
-The screenshots below show the full Splunk dashboard from top to bottom.
+The screenshots below document the **Windows – Suspicious Process Execution** dashboard,
+showing end-to-end validation of the detection logic using a simulated encoded PowerShell execution.
 
-The dashboard validates the **Suspicious Process Execution** detection, including:
+The dashboard validates:
 - raw process creation visibility (EventCode 4688)
-- encoded / obfuscated PowerShell execution
+- detection of encoded / obfuscated PowerShell execution
+- identification of execution from user-writable paths
 - high-risk indicator for malicious execution patterns
 
-The high-risk indicator turns red when **obfuscated PowerShell execution** is detected.
+---
 
-This confirms that the detection logic and dashboard visualization work together as intended for SOC L1 triage.
 
 
 ![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution1.png)
