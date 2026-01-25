@@ -29,6 +29,7 @@ index=windows sourcetype="XmlWinEventLog:Security" (EventCode=4624 OR EventCode=
 | stats count by EventCode
 | sort - count
 
+```
 
 
 ## Attack Simulation (Lab Context)
