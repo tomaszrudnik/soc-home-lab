@@ -33,6 +33,8 @@ All security-related logs from the Windows endpoint are centrally collected and 
 ## Simulated Incident (High-Level)
 A controlled attack scenario is executed in the lab to simulate a compromised Windows endpoint.
 The focus of this project is **not exploitation**, but **detection, investigation and response** from a SOC perspective.
+All attack activity was manually executed in a controlled lab environment
+to generate authentic Windows telemetry for defensive detection validation.
 
 Details of the scenario and analysis are documented in the `docs/` directory.
 
