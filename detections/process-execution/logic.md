@@ -197,7 +197,7 @@ work together as intended for SOC L1 triage.
 
 **Obfuscated PowerShell execution detected and visualized in Splunk dashboard.**
 
-![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution1.png)
+![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciusProcessExecution1.png)
 
 ![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution2.png)
 
