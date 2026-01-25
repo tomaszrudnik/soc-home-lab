@@ -108,20 +108,22 @@ It is useful for spotting cases where password guessing transitions into a valid
 
 ```spl
 index=windows sourcetype="XmlWinEventLog:Security" (EventCode=4624 OR EventCode=4625)
-| eval user=coalesce(user, Account_Name, TargetUserName)
-| eval is_fail=if(EventCode=4625,1,0)
+| rex field=_raw "Data Name='TargetUserName'>(?<user>[^<]+)"
+| rex field=_raw "Data Name='LogonType'>(?<logon_type>\d+)"
+| where user!="SYSTEM" AND user!="-"
+| eval is_fail_net=if(EventCode=4625 AND logon_type="3",1,0)
 | eval is_success=if(EventCode=4624,1,0)
-| bin _time span=5m
-| stats
-    sum(is_fail) as failed_count
-    sum(is_success) as success_count
-    values(LogonType) as logon_types
-    values(IpAddress) as src_ip
-    by _time, host, user
-| where failed_count >= 5 AND success_count >= 1
+| bin _time span=10m
+| stats sum(is_fail_net) as failed_net_count sum(is_success) as success_count by _time, host, user
+| where failed_net_count >= 5 AND success_count >= 1
 | sort - _time
-```
 
+```
+The screenshot below shows a correlated signal where multiple failed network logons
+(EventCode 4625, LogonType 3) are followed by a successful authentication (EventCode 4624)
+for the same user and host within a short time window.
+
+![Detection B — Success after failures](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/detection_b_success_after_failures.png)
 
 
 
