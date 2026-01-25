@@ -195,6 +195,16 @@ The high-risk indicator turns red when obfuscated PowerShell activity is detecte
 This validation confirms that the detection logic and dashboard visualization
 work together as intended for SOC L1 triage.
 
+**Obfuscated PowerShell execution detected and visualized in Splunk dashboard.**
 
+![Dashboard – overview](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution1.png)
+
+![Dashboard – detection panels](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution2.png)
+
+![Dashboard – high risk indicator](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution3.png)
+
+![Dashboard – raw EventCode 4688](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution4.png)
+
+![Dashboard – end-to-end validation](../../docs/screenshots/splunk/dashboard_obfuscated_powershell/SuspiciousProcessExecution5.png)
 
 ---
