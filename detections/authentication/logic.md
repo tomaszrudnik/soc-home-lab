@@ -135,13 +135,14 @@ for the same user and host within a short time window.
 
 ## Dashboard — Authentication Abuse (Evidence)
 
-The following dashboard panels provide SOC L1 analysts with situational awareness
-and triage context for Windows authentication abuse detections (4624/4625).
+The screenshots below show key panels from the SOC L1 dashboard used for monitoring
+and triaging Windows authentication abuse activity based on EventCodes
+4624 and 4625.
 
-### Failed Logons by Host (4625)
+These panels provide:
+- visibility into hosts generating high volumes of failed logons (4625)
+- contextual support for authentication abuse triage
 
-This panel highlights hosts generating high volumes of failed authentication
-attempts and serves as an entry point for authentication abuse investigation.
 
 ![Failed Logons by Host (4625) — overview](../../docs/screenshots/splunk/dashboard_authentication_4624_4625/panel_failures_by_host.png)
 
