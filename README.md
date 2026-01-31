@@ -1,3 +1,10 @@
+
+🔗 **Download CV (PDF):**  
+[Tomasz_Samel_Junior_SOC_Analyst.pdf](./Tomasz_Samel_Junior_SOC_Analyst.pdf)
+
+---
+
+
 # SOC Home Lab – Splunk SIEM (Junior SOC Analyst L1)
 
 This repository documents a self-built **SOC Home Lab** focused on **SIEM operations, log analysis, alert triage and basic incident response**.
