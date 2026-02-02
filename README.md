@@ -37,6 +37,50 @@ All security-related logs from the Windows endpoint are centrally collected and 
 
 ---
 
+
+## How I Approach Alerts and Incidents (SOC L1 Perspective)
+
+This lab reflects how a **SOC L1 analyst evaluates alerts and decides when an incident may be occurring**.
+
+### Alert Interpretation
+Each alert is treated as a **signal**, not an incident by default.
+I first determine:
+- what behavior triggered the alert
+- whether the activity is expected or unusual
+- how frequently it occurs and in what context
+
+Simple, explainable detections are preferred to reduce false positives.
+
+### Triage and Context Building
+Before escalation, basic context is established:
+- affected host and user
+- sequence of related events (e.g. failures followed by success)
+- type of access or activity observed
+- whether the behavior is isolated or recurring
+
+This helps distinguish normal activity from suspicious patterns.
+
+### Escalation Logic
+An alert is escalated to a potential incident when:
+- repeated failures occur in a short time window
+- suspicious activity transitions to success
+- elevated privileges or sensitive access methods are involved
+- activity aligns with known attack patterns (e.g. brute-force, misuse of valid accounts)
+
+Focus is placed on **impact and prioritization**, not alert volume.
+
+### Continuous Improvement
+Detections are reviewed and adjusted based on:
+- observed false positives
+- behavioral changes over time
+- lessons learned during lab validation
+
+This mirrors real SOC workflows, where detections evolve continuously.
+
+---
+
+
+
 ## Simulated Incident (High-Level)
 A controlled attack scenario is executed in the lab to simulate a compromised Windows endpoint.
 The focus of this project is **not exploitation**, but **detection, investigation and response** from a SOC perspective.
