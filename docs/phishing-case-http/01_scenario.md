@@ -82,4 +82,15 @@ index=windows EventCode=4688 earliest=-30m
 
 Conclusion: Command-line parameters may reveal suspicious indicators even before network telemetry analysis.
 
+---
+
+## Step 2 – Network Connection (HTTP Access Confirmation)
+
+### Query
+
+```spl
+index=windows source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=3 earliest=-30m
+"*chrome.exe*" AND ("192.168.1.235" OR "8080")
+| table _time host _raw
+| sort -_time
 
