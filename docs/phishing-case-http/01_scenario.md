@@ -44,10 +44,11 @@ Verify whether the accessed web page is malicious using endpoint telemetry (Wind
 ### Query
 
 ```spl
-index=windows EventCode=4688 earliest=-5m
-NewProcessName="*chrome.exe"
-| table _time host NewProcessName ParentProcessName
+index=windows EventCode=4688 earliest=-30m
+"*chrome.exe"
+| table _time host _raw
 | sort -_time
+
 ```
 
 ### What to verify (Checklist)
