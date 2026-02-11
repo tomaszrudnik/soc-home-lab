@@ -77,6 +77,9 @@ index=windows EventCode=4688 earliest=-30m
 | sort -_time
 ```
 
+![Step 2 – Command Line Inspection](./screenshots/step2_commandline.png)
+
+
 ### What was verified inside `_raw`
 
 - CommandLine field present
