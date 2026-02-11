@@ -31,6 +31,27 @@ index=windows EventCode=4688 earliest=-30m
 | table _time host _raw
 | sort -_time
 ```
+### What to verify (Checklist)
+
+- Confirm browser process creation (chrome.exe)
+- Verify timestamp matches user click time
+- Confirm user context (SubjectUserName)
+- Check ParentProcessName (should be explorer.exe – user initiated)
+
+### Evidence Screenshot
+
+![Step 1 – Process Creation](screenshots/step1_process_creation_chrome.png)
+
+---
+
+### Analysis
+
+The logs confirm that chrome.exe was launched by the user account shortly after the phishing link was clicked.  
+Parent process indicates interactive user execution.
+
+Conclusion: User action confirmed.
+
+
 
 ### What was verified
 
