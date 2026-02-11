@@ -128,7 +128,8 @@ index=windows EventCode=4688 earliest=-30m
 | table _time host _raw
 | sort -_time
 ```
-![Step 4 – Post-Click Execution Check](docs/phishing-case-http/screenshots/step3_sysmon_network_connection.png
+![Step 3 – Network Connection](./screenshots/step3_sysmon_network_connection.png)
+
 
 
 
