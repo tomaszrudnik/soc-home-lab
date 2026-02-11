@@ -1,159 +1,156 @@
-Phishing – Wprowadzenie i Tło Techniczne
-1. Czym jest phishing?
+# Phishing – Wprowadzenie i Tło Techniczne
+
+---
+
+## 1. Czym jest phishing?
 
 Phishing to technika socjotechniczna polegająca na podszywaniu się pod zaufaną instytucję (np. bank, Microsoft, kurier, operator płatności) w celu:
 
-wyłudzenia danych logowania
+- wyłudzenia danych logowania
+- przejęcia konta
+- wyłudzenia danych karty płatniczej
+- dostarczenia złośliwego oprogramowania
 
-przejęcia konta
-
-wyłudzenia danych karty płatniczej
-
-dostarczenia złośliwego oprogramowania
-
-Phishing atakuje człowieka, nie system.
+Phishing atakuje **człowieka**, nie system.  
 Nie wymaga exploita ani podatności – wymaga kliknięcia.
 
-2. Najczęstsze wektory phishingu
-2.1 Link w wiadomości e-mail
+---
+
+## 2. Najczęstsze wektory phishingu
+
+### 2.1 Link w wiadomości e-mail
 
 Najpopularniejszy scenariusz:
 
-Użytkownik otrzymuje wiadomość.
+1. Użytkownik otrzymuje wiadomość.
+2. Kliknięcie prowadzi do fałszywej strony logowania.
+3. Wprowadzone dane trafiają do atakującego.
 
-Kliknięcie prowadzi do fałszywej strony logowania.
+---
 
-Dane trafiają do atakującego.
+## 3. Analiza URL – na co zwracamy uwagę
 
-3. Na co zwracać uwagę przy analizie URL
-3.1 Podejrzane domeny
+### 3.1 Przykłady podejrzanych adresów
 
-Przykłady:
+- http://bank-secure-login.com
+- http://secure-microsoft-update.com
+- http://192.168.1.235:8080/login
 
-http://bank-secure-login.com
-http://secure-microsoft-update.com
-http://192.168.1.235:8080/login
+---
 
-3.2 Typowe wskaźniki phishingu
+### 3.2 Typowe wskaźniki phishingu
 
-Literówki w domenie (microso0ft, paypa1)
+- literówki w domenie (np. microso0ft, paypa1)
+- dodatkowe słowa: secure, login, update, verify
+- użycie bezpośredniego adresu IP zamiast domeny
+- brak HTTPS
+- niestandardowy port (8080, 8443, 4444)
+- podejrzane subdomeny:
 
-Dodatkowe słowa: secure, login, update, verify
 
-Użycie bezpośredniego adresu IP zamiast domeny
+---
 
-Brak HTTPS
+## 4. Niebezpieczne załączniki
 
-Nietypowy port (8080, 8443, 4444)
+Phishing nie zawsze kończy się na stronie WWW.  
+Często zawiera pliki o wysokim ryzyku.
 
-Podejrzane subdomeny:
+### 4.1 Wysokiego ryzyka
 
-microsoft.security-login-update.com
-paypal.verify-account-secure.com
+- .exe  
+- .js  
+- .vbs  
+- .bat  
+- .ps1  
+- .scr  
 
-4. Niebezpieczne załączniki
+### 4.2 Często wykorzystywane w atakach
 
-Phishing nie zawsze kończy się na stronie WWW
-. Często zawiera pliki:
-
-Wysokiego ryzyka:
-
-.exe
-
-.js
-
-.vbs
-
-.bat
-
-.ps1
-
-.scr
-
-Często wykorzystywane w atakach:
-
-.zip
-
-.iso
-
-.img
-
-.docm
-
-.xlsm
-
-.pdf (z linkiem)
+- .zip  
+- .iso  
+- .img  
+- .docm  
+- .xlsm  
+- .pdf (z osadzonym linkiem)
 
 ZIP i ISO są szczególnie niebezpieczne, ponieważ:
 
-omijają podstawową analizę AV
+- omijają podstawową analizę AV
+- mogą zawierać pliki wykonywalne
+- mogą maskować rozszerzenia
 
-mogą zawierać plik wykonywalny
+---
 
-mogą maskować rozszerzenia
+## 5. Co analizujemy po kliknięciu (SOC L1 – Checklista)
 
-5. Co analizujemy po kliknięciu (SOC L1 Checklista)
+### 5.1 Procesy – Event ID 4688
 
-Po kliknięciu w link analizujemy w logach:
+Sprawdzamy:
 
-Procesy (Event ID 4688)
+- czy uruchomiono przeglądarkę
+- czy pojawił się proces potomny
+- czy wystąpiły podejrzane procesy:
+  - cmd.exe
+  - powershell.exe
+  - mshta.exe
+  - wscript.exe
+  - rundll32.exe
+  - certutil.exe
 
-Czy uruchomiono przeglądarkę?
+---
 
-Czy pojawił się proces potomny?
+### 5.2 Połączenia sieciowe – Sysmon Event ID 3
 
-Czy wystąpiły podejrzane procesy (cmd, powershell, mshta)?
+Sprawdzamy:
 
-Połączenia sieciowe (Sysmon Event ID 3)
+- czy przeglądarka połączyła się z adresem IP
+- czy użyto niestandardowego portu
+- czy połączenie było HTTP zamiast HTTPS
+- czy domena jest nietypowa
 
-Czy przeglądarka połączyła się z adresem IP?
+---
 
-Czy użyto niestandardowego portu?
+### 5.3 Artefakty systemowe
 
-Czy połączenie było HTTP zamiast HTTPS?
+- zapis pliku w AppData / Temp
+- modyfikacja rejestru
+- utworzenie zadania harmonogramu
+- utworzenie nowego konta lokalnego
 
-Artefakty systemowe
+---
 
-Czy zapisano plik w AppData / Temp?
-
-Czy zmodyfikowano rejestr?
-
-Czy utworzono zadanie harmonogramu?
-
-Czy utworzono nowe konto lokalne?
-
-6. Brak artefaktów – co to oznacza?
+## 6. Brak artefaktów – co to oznacza?
 
 Jeżeli w logach nie ma:
 
-nowych procesów
+- nowych procesów
+- zapisu plików
+- modyfikacji systemu
 
-zapisu plików
+Może to oznaczać:
 
-modyfikacji systemu
+- phishing credentialowy (wyłącznie kradzież login/hasło)
+- brak payloadu malware
+- wyłącznie fałszywą stronę HTML
 
-może to oznaczać:
+---
 
-phishing credentialowy (wyłącznie kradzież login/hasło)
+## 7. Phishing vs Malware – różnice
 
-brak payloadu malware
+| Phishing | Malware |
+|----------|----------|
+| Kradzież danych | Instalacja złośliwego kodu |
+| Fałszywa strona | Wykonanie pliku |
+| Często brak artefaktów systemowych | Widoczne artefakty w logach |
+| Atakuje użytkownika | Atakuje system |
 
-wyłącznie fałszywą stronę HTML
+---
 
-7. Phishing vs Malware – różnica
-Phishing	Malware
-Kradzież danych	Instalacja złośliwego kodu
-Fałszywa strona	Wykonanie pliku
-Często brak artefaktów systemowych	Widoczne artefakty w logach
-Atakuje użytkownika	Atakuje system
-8. Dlaczego phishing jest skuteczny?
+## 8. Dlaczego phishing jest skuteczny?
 
-Bazuje na presji czasu
+- bazuje na presji czasu
+- wykorzystuje znane marki
+- nie wymaga exploita
+- często nie generuje alertów AV
+- użytkownik sam podaje dane
 
-Wykorzystuje znane marki
-
-Nie wymaga exploita
-
-Często nie generuje alertów AV
-
-Użytkownik sam podaje dane
