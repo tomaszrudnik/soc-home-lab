@@ -58,6 +58,8 @@ index=windows EventCode=4688 earliest=-5m
 NewProcessName="*chrome.exe"
 | table _time host CommandLine ParentProcessName
 
+---
+
 
 ---
 
