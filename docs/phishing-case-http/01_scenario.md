@@ -128,6 +128,10 @@ index=windows EventCode=4688 earliest=-30m
 | table _time host _raw
 | sort -_time
 ```
+![Step 4 – Post-Click Execution Check](./screenshots/step4_post_click_process_check.png)
+
+
+
 
 ### What was verified
 
