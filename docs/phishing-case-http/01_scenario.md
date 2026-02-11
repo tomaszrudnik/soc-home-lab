@@ -66,9 +66,9 @@ Conclusion: User action confirmed – browser launched after clicking the link.
 ### Query
 
 ```spl
-index=windows EventCode=4688 earliest=-5m
-NewProcessName="*chrome.exe"
-| table _time host CommandLine ParentProcessName
+index=windows EventCode=4688 earliest=-30m
+"*chrome.exe" "CommandLine"
+| table _time host _raw
 | sort -_time
 ```
 
