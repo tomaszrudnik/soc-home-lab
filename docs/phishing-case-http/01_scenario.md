@@ -31,4 +31,22 @@ In lab:
 ---
 
 
+# Investigation – Phishing Page Verification (SOC L1 Workflow)
+
+## Objective
+
+Verify whether the accessed web page is malicious using endpoint telemetry (Windows Security + Sysmon logs) in Splunk.
+
+---
+
+## Step 1 – Process Creation (User Action Confirmation)
+
+### Query
+
+```spl
+index=windows EventCode=4688 earliest=-5m
+NewProcessName="*chrome.exe"
+
+---
+
 
