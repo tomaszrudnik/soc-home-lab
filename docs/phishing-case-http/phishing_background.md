@@ -1,7 +1,7 @@
 Phishing – Wprowadzenie i Tło Techniczne
-1. Czym jest phishing
+1. Czym jest phishing?
 
-Phishing to technika socjotechniczna polegająca na podszywaniu się pod zaufaną instytucję (bank, Microsoft, kurier, operator płatności) w celu:
+Phishing to technika socjotechniczna polegająca na podszywaniu się pod zaufaną instytucję (np. bank, Microsoft, kurier, operator płatności) w celu:
 
 wyłudzenia danych logowania
 
@@ -12,44 +12,65 @@ wyłudzenia danych karty płatniczej
 dostarczenia złośliwego oprogramowania
 
 Phishing atakuje człowieka, nie system.
-
 Nie wymaga exploita ani podatności – wymaga kliknięcia.
 
 2. Najczęstsze wektory phishingu
 2.1 Link w wiadomości e-mail
 
-Przykłady podejrzanych adresów:
+Najpopularniejszy scenariusz:
+
+Użytkownik otrzymuje wiadomość.
+
+Kliknięcie prowadzi do fałszywej strony logowania.
+
+Dane trafiają do atakującego.
+
+3. Na co zwracać uwagę przy analizie URL
+3.1 Podejrzane domeny
+
+Przykłady:
 
 http://bank-secure-login.com
 http://secure-microsoft-update.com
 http://192.168.1.235:8080/login
 
+3.2 Typowe wskaźniki phishingu
 
-Na co zwracamy uwagę:
+Literówki w domenie (microso0ft, paypa1)
 
-literówki w domenie (micr0soft, paypa1)
+Dodatkowe słowa: secure, login, update, verify
 
-dodatkowe słowa: secure, login, update, verify
+Użycie bezpośredniego adresu IP zamiast domeny
 
-użycie bezpośredniego adresu IP
+Brak HTTPS
 
-brak HTTPS
+Nietypowy port (8080, 8443, 4444)
 
-nietypowy port (8080, 8443, 4444)
-
-podejrzane subdomeny:
+Podejrzane subdomeny:
 
 microsoft.security-login-update.com
+paypal.verify-account-secure.com
 
-2.2 Złośliwe załączniki
+4. Niebezpieczne załączniki
 
-Najczęściej spotykane rozszerzenia:
+Phishing nie zawsze kończy się na stronie WWW
+. Często zawiera pliki:
 
-.docm
+Wysokiego ryzyka:
 
-.xlsm
+.exe
 
-.pdf
+.js
+
+.vbs
+
+.bat
+
+.ps1
+
+.scr
+
+Często wykorzystywane w atakach:
 
 .zip
 
@@ -57,161 +78,82 @@ Najczęściej spotykane rozszerzenia:
 
 .img
 
-.js
+.docm
 
-.hta
+.xlsm
 
-.lnk
+.pdf (z linkiem)
 
-Dlaczego są groźne:
+ZIP i ISO są szczególnie niebezpieczne, ponieważ:
 
-DOCM/XLSM – makra mogą uruchamiać PowerShell
+omijają podstawową analizę AV
 
-ISO/IMG – po zamontowaniu użytkownik widzi „fałszywy dysk” z plikiem wykonywalnym
+mogą zawierać plik wykonywalny
 
-ZIP – ukryty dropper lub skrypt
+mogą maskować rozszerzenia
 
-JS/HTA – wykonywane bezpośrednio przez Windows
+5. Co analizujemy po kliknięciu (SOC L1 Checklista)
 
-LNK – skrót wywołujący polecenie w tle
+Po kliknięciu w link analizujemy w logach:
 
-ISO i IMG są szczególnie niebezpieczne, ponieważ:
+Procesy (Event ID 4688)
 
-często omijają filtry pocztowe
+Czy uruchomiono przeglądarkę?
 
-po otwarciu wyglądają jak lokalny dysk
+Czy pojawił się proces potomny?
 
-realne rozszerzenie pliku bywa ukryte
+Czy wystąpiły podejrzane procesy (cmd, powershell, mshta)?
 
-3. Weryfikacja domeny – Checklista SOC
+Połączenia sieciowe (Sysmon Event ID 3)
 
-Podczas analizy sprawdzamy:
+Czy przeglądarka połączyła się z adresem IP?
 
-czy domena zawiera literówki
+Czy użyto niestandardowego portu?
 
-czy wygląda podejrzanie marketingowo
+Czy połączenie było HTTP zamiast HTTPS?
 
-czy używa bezpośredniego IP
+Artefakty systemowe
 
-czy domena została niedawno zarejestrowana
+Czy zapisano plik w AppData / Temp?
 
-czy certyfikat SSL jest prawidłowy
+Czy zmodyfikowano rejestr?
 
-czy domena nie jest subdomeną maskującą markę
+Czy utworzono zadanie harmonogramu?
 
-4. Analiza adresu URL
+Czy utworzono nowe konto lokalne?
 
-Sprawdzamy:
+6. Brak artefaktów – co to oznacza?
 
-czy użyto HTTP zamiast HTTPS
+Jeżeli w logach nie ma:
 
-czy występuje niestandardowy port
+nowych procesów
 
-czy w URL są podejrzane parametry:
+zapisu plików
 
-?session=verify&id=update
+modyfikacji systemu
 
+może to oznaczać:
 
-czy występują znaki kodowane:
-
-%2F%3D%40
-
-
-Czerwone flagi:
-
-IP zamiast domeny
-
-port 8080
-
-brak szyfrowania
-
-długie losowe parametry
-
-5. Co sprawdzamy w logach endpoint (SOC L1)
-5.1 Event ID 4688 – Process Creation
-
-Analizujemy:
-
-czy uruchomiono przeglądarkę
-
-czy ParentProcessName = explorer.exe
-
-czy pojawiły się podejrzane procesy:
-
-powershell.exe
-
-cmd.exe
-
-mshta.exe
-
-wscript.exe
-
-rundll32.exe
-
-certutil.exe
-
-Jeżeli po kliknięciu strony pojawia się PowerShell – to poważna czerwona flaga.
-
-5.2 Sysmon Event ID 3 – Network Connection
-
-Sprawdzamy:
-
-Destination IP
-
-Destination Port
-
-Protocol
-
-czy połączenie było wychodzące
-
-czy użyto HTTP
-
-Czerwone flagi:
-
-bezpośredni adres IP
-
-niestandardowy port
-
-połączenie do nieznanego hosta
-
-brak szyfrowania
-
-6. Sprawdzenie dalszej kompromitacji
-
-Po kliknięciu strony analizujemy, czy:
-
-uruchomiono proces potomny przeglądarki
-
-pobrano plik
-
-zapisano plik w AppData lub Temp
-
-zmodyfikowano rejestr
-
-utworzono zadanie harmonogramu
-
-utworzono nowe konto lokalne
-
-Brak powyższych artefaktów może oznaczać:
-
-wyłącznie phishing credentialowy (kradzież login/hasło)
+phishing credentialowy (wyłącznie kradzież login/hasło)
 
 brak payloadu malware
 
-7. Phishing vs Malware – Różnica
+wyłącznie fałszywą stronę HTML
+
+7. Phishing vs Malware – różnica
 Phishing	Malware
 Kradzież danych	Instalacja złośliwego kodu
 Fałszywa strona	Wykonanie pliku
 Często brak artefaktów systemowych	Widoczne artefakty w logach
-Skupiony na użytkowniku	Skupiony na systemie
-8. Dlaczego phishing jest skuteczny
+Atakuje użytkownika	Atakuje system
+8. Dlaczego phishing jest skuteczny?
 
-bazuje na presji czasu
+Bazuje na presji czasu
 
-wykorzystuje znaną markę
+Wykorzystuje znane marki
 
-nie wymaga exploita
+Nie wymaga exploita
 
-często nie generuje alertów AV
+Często nie generuje alertów AV
 
-użytkownik sam podaje dane
+Użytkownik sam podaje dane
