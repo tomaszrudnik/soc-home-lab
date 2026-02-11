@@ -46,6 +46,17 @@ Verify whether the accessed web page is malicious using endpoint telemetry (Wind
 ```spl
 index=windows EventCode=4688 earliest=-5m
 NewProcessName="*chrome.exe"
+| table _time host NewProcessName ParentProcessName
+| sort -_time
+```
+
+### What to verify (Checklist)
+
+- Confirm that the browser process was created
+- Verify that `ParentProcessName = explorer.exe` (user-initiated execution)
+- Confirm timestamp matches the click time
+
+Conclusion: User action confirmed – browser launched after clicking the link.
 
 ---
 
@@ -57,10 +68,17 @@ NewProcessName="*chrome.exe"
 index=windows EventCode=4688 earliest=-5m
 NewProcessName="*chrome.exe"
 | table _time host CommandLine ParentProcessName
+| sort -_time
+```
 
----
+### What to verify (Checklist)
 
+- Check if the URL appears in CommandLine
+- Check for IP address instead of domain
+- Check for non-standard port (e.g., 8080)
+- Check if HTTP is used instead of HTTPS
+- Confirm ParentProcessName = explorer.exe
 
----
+Conclusion: Command-line parameters may reveal suspicious indicators even before network telemetry analysis.
 
 
