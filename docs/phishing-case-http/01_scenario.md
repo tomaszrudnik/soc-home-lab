@@ -100,6 +100,7 @@ Chrome established a direct HTTP connection to the phishing server hosted at 192
 ```spl
 index=windows EventCode=4688 earliest=-30m
 ("cmd.exe" OR "powershell.exe" OR "mshta.exe" OR "wscript.exe" OR "rundll32.exe" OR "certutil.exe")
+"chrome.exe"
 | table _time host _raw
 | sort -_time
 ```
