@@ -11,7 +11,7 @@ Phishing to technika socjotechniczna polegająca na podszywaniu się pod zaufan�
 - wyłudzenia danych karty płatniczej
 - dostarczenia złośliwego oprogramowania
 
-Phishing atakuje **człowieka**, nie system.  
+Phishing atakuje **człowieka**, nie system, jest atakiem na użytkownika, nie na podatność systemową.
 Nie wymaga exploita ani podatności – wymaga kliknięcia.
 
 ---
