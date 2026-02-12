@@ -153,4 +153,66 @@ Może to oznaczać:
 - nie wymaga exploita
 - często nie generuje alertów AV
 - użytkownik sam podaje dane
+  ---
+
+## 9. Weryfikacja domeny i infrastruktury (OSINT)
+
+Analiza phishingu nie ogranicza się do logów endpoint.  
+W realnym SOC weryfikujemy również warstwę domenową i infrastrukturę.
+
+### 9.1 Analiza WHOIS
+
+Sprawdzamy:
+
+- datę rejestracji domeny
+- kraj rejestracji
+- czy dane właściciela są ukryte (privacy protection)
+- czy domena została zarejestrowana niedawno
+
+Nowo zarejestrowane domeny (< 30 dni) są częstym wskaźnikiem phishingu.
+
+---
+
+### 9.2 Certyfikat SSL
+
+Sprawdzamy:
+
+- czy certyfikat istnieje
+- kto go wystawił
+- czy jest self-signed
+- czy domena w certyfikacie zgadza się z adresem
+
+Phishing często używa darmowych certyfikatów lub HTTP bez TLS.
+
+---
+
+### 9.3 SPF / DKIM / DMARC
+
+W przypadku phishingu e-mail analizujemy:
+
+- wynik SPF
+- wynik DKIM
+- wynik DMARC
+
+Możliwe scenariusze:
+
+- SPF fail
+- DKIM fail
+- DMARC fail
+- 3x pass przy domenie podobnej do oryginalnej (lookalike domain)
+
+---
+
+### 9.4 Reputacja IP i domeny
+
+Sprawdzamy:
+
+- czy IP znajduje się w blacklistach
+- czy domena była zgłaszana jako phishing
+- czy IP należy do podejrzanego ASN
+
+---
+
+Weryfikacja infrastruktury pozwala ocenić poziom ryzyka nawet bez obecności malware.
+
 
