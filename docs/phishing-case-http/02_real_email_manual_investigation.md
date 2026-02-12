@@ -28,6 +28,8 @@ admin@sqqs-cb473.firebaseapp.com
 
 ---
 
+![Sender Address](screenshots/manual_01_sender_address.png)
+
 # 2. Header Analysis
 
 ## 2.1 SPF
@@ -60,6 +62,9 @@ Interpretation:
 Domain alignment passed policy validation.
 
 ---
+![Email Headers](screenshots/manual_02_email_headers.png)
+
+
 
 ## 2.4 Conclusion – Authentication
 
@@ -85,6 +90,9 @@ Indicators:
 - Redirect behavior observed
 
 ---
+![Malicious URL](screenshots/manual_03_malicious_url.png)
+
+
 
 # 4. Domain Reputation Check
 
@@ -114,6 +122,8 @@ Assessment:
 Confirmed malicious infrastructure.
 
 ---
+![VirusTotal](screenshots/manual_04_domain_reputation_virustotal.png)
+
 
 ## 4.2 WHOIS Analysis
 
