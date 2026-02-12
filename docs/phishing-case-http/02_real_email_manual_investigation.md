@@ -28,7 +28,7 @@ admin@sqqs-cb473.firebaseapp.com
 
 ---
 
-![Sender Address](screenshots/manual_01_sender_address.png)
+![Sender Address](docs/phishing-case-http/screenshots/manual_01_headers.png)
 
 # 2. Header Analysis
 
