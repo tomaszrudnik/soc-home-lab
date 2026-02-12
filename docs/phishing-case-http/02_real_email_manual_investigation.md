@@ -126,7 +126,8 @@ Assessment:
 Confirmed malicious infrastructure.
 
 ---
-![VirusTotal](screenshots/manual_04_domain_reputation_virustotal.png)
+![VirusTotal Detection](screenshots/manual_04_virustotal_detection.png)
+
 
 
 ## 4.2 WHOIS Analysis
