@@ -64,7 +64,8 @@ Interpretation:
 Domain alignment passed policy validation.
 
 ---
-![Email Headers](screenshots/manual_02_email_headers.png)
+![Authentication Results](screenshots/manual_02_authentication_results.png)
+
 
 
 
