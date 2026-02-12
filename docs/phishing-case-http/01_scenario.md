@@ -1,19 +1,31 @@
 # Phishing Case – Fake Banking Portal (HTTP Simulation)
 
+---
+
 ## Objective
 
-Simulate a phishing scenario where a user clicks a malicious banking link.  
-Goal: analyze endpoint telemetry and determine impact from a SOC L1 perspective.
+Simulate a phishing scenario in which a user clicks a malicious banking link.
+
+Goals (SOC L1 perspective):
+
+- confirm user interaction
+- correlate process + network telemetry
+- determine whether compromise occurred
+- document investigation workflow
 
 ---
 
 ## Lab Environment
 
-- SIEM: Splunk Enterprise  
-- Endpoint: Windows 10 (Security logs + Sysmon)  
-- Log Forwarding: Splunk Universal Forwarder  
-- Attack Simulation: Local HTTP server (Ubuntu – python3 http.server 8080)  
-- Network: 192.168.1.0/24 (VirtualBox lab)  
+- SIEM: Splunk Enterprise (index=windows)
+- Endpoint: Windows 10 (Security logs + Sysmon)
+- Log Forwarding: Splunk Universal Forwarder
+- Phishing Page Hosting: Ubuntu (`python3 -m http.server 8080`)
+- Virtualization: VirtualBox
+- Network: 192.168.1.0/24 (lab environment)
+
+Phishing page accessed in lab:
+http://192.168.1.235:8080
 
 ---
 
@@ -23,7 +35,7 @@ Goal: analyze endpoint telemetry and determine impact from a SOC L1 perspective.
 
 ## Step 1 – Process Creation (Browser Launch Confirmation)
 
-### Query (confirmed working in lab)
+### Query
 
 ```spl
 index=windows EventCode=4688 earliest=-30m
@@ -31,44 +43,28 @@ index=windows EventCode=4688 earliest=-30m
 | table _time host _raw
 | sort -_time
 ```
-### What to verify (Checklist)
 
-- Confirm browser process creation (chrome.exe)
-- Verify timestamp matches user click time
-- Confirm user context (SubjectUserName)
-- Check ParentProcessName (should be explorer.exe – user initiated)
-
-### Evidence Screenshot
-
-![Step 1 – Process Creation](screenshots/step1_process_creation_chrome.png)
-
----
-
-### Analysis
-
-The logs confirm that chrome.exe was launched by the user account shortly after the phishing link was clicked.  
-Parent process indicates interactive user execution.
-
-Conclusion: User action confirmed.
-
-
-
-### What was verified
+### Verification
 
 - Event ID 4688 observed
-- `_raw` contains `chrome.exe`
-- Process path: C:\Program Files\Google\Chrome\Application\chrome.exe
-- ParentProcessName visible inside raw event
+- `_raw` contains chrome.exe
+- ParentProcessName = explorer.exe
 - Timestamp matches user click
+- Execution performed under logged user
 
-**Conclusion:**  
-User manually launched Chrome after clicking the link.
+### Evidence
+
+![Step 1 – Process Creation](./screenshots/step1_process_creation_chrome.png)
+
+### Conclusion
+
+User-initiated browser execution confirmed.
 
 ---
 
 ## Step 2 – Command Line Inspection
 
-### Query (confirmed working in lab)
+### Query
 
 ```spl
 index=windows EventCode=4688 earliest=-30m
@@ -77,25 +73,27 @@ index=windows EventCode=4688 earliest=-30m
 | sort -_time
 ```
 
-![Step 2 – Command Line Inspection](./screenshots/step2_commandline.png)
-
-
-### What was verified inside `_raw`
+### Verification
 
 - CommandLine field present
-- Reference to accessed URL/IP
-- Usage of HTTP (no HTTPS)
-- Potential presence of port 8080
-- ParentProcessName value
+- HTTP usage observed (no TLS)
+- Possible reference to direct IP and port 8080
+- ParentProcessName consistent with interactive user action
+- No suspicious execution flags
 
-**Conclusion:**  
-Process creation logs confirm how the browser was started and allow inspection of execution parameters.
+### Evidence
+
+![Step 2 – Command Line Inspection](./screenshots/step2_commandline.png)
+
+### Conclusion
+
+Browser execution parameters reviewed. No suspicious flags detected.
 
 ---
 
 ## Step 3 – Network Connection Confirmation (Sysmon Event ID 3)
 
-### Query (confirmed working in lab)
+### Query
 
 ```spl
 index=windows source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=3 earliest=-30m
@@ -104,22 +102,27 @@ index=windows source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCod
 | sort -_time
 ```
 
-### What was verified inside `_raw`
+### Verification
 
-- Event ID 3 (Network Connection)
+- Event ID 3 confirmed
 - Image = chrome.exe
 - DestinationIp = 192.168.1.235
 - DestinationPort = 8080
-- TCP connection initiated
+- Outbound TCP connection initiated
 
-**Conclusion:**  
-Chrome established a direct HTTP connection to the phishing server hosted at 192.168.1.235:8080.
+### Evidence
+
+![Step 3 – Network Connection](./screenshots/step3_sysmon_network_connection.png)
+
+### Conclusion
+
+HTTP outbound connection to phishing infrastructure confirmed.
 
 ---
 
 ## Step 4 – Post-Click Execution Check
 
-### Query (confirmed working in lab)
+### Query
 
 ```spl
 index=windows EventCode=4688 earliest=-30m
@@ -128,46 +131,91 @@ index=windows EventCode=4688 earliest=-30m
 | table _time host _raw
 | sort -_time
 ```
-![Step 3 – Network Connection](./screenshots/step3_sysmon_network_connection.png)
 
+### Result
 
+No events returned.
 
+### Verification
 
+- No suspicious child processes spawned by chrome.exe
+- No PowerShell execution detected
+- No command interpreter activity
+- No LOLBins observed
 
-### What was verified
+### Conclusion
 
-- Multiple chrome.exe processes (normal browser behavior)
-- No evidence of:
-  - powershell.exe
-  - cmd.exe
-  - mshta.exe
-  - wscript.exe
-  - rundll32.exe
-- No suspicious child process execution detected
+No payload execution detected. Activity limited to browser interaction only.
 
-**Conclusion:**  
-No post-click payload execution observed. Activity limited to browser execution only.
+---
+
+## Step 5 – Domain & Infrastructure Verification
+
+### Observed Infrastructure Indicators
+
+- Direct IP usage instead of legitimate banking domain
+- Non-standard port (8080)
+- HTTP protocol (no encryption)
+
+These characteristics are frequently associated with phishing infrastructure.
+
+---
+
+### WHOIS / Domain Verification (Conceptual – Lab)
+
+In a real phishing investigation the following should be verified:
+
+- Domain registration date
+- Domain age (new domains < 30 days indicator)
+- Registrar information
+- Privacy protection status
+- IP reputation
+- Blacklist presence
+
+Newly registered domains are commonly used in phishing campaigns.
+
+---
+
+### Email Authentication (Conceptual)
+
+If phishing originated via email, the following must be verified:
+
+- SPF result
+- DKIM result
+- DMARC result
+
+Indicators of increased risk:
+
+- SPF fail
+- DKIM fail
+- DMARC fail
+- Lookalike domain with successful authentication
 
 ---
 
 # Final SOC L1 Assessment
 
-### Findings
+---
+
+## Findings
 
 - Browser launch confirmed (Event ID 4688)
-- Network connection confirmed (Sysmon Event ID 3)
-- Direct IP usage (192.168.1.235)
-- Non-standard port (8080)
-- HTTP protocol (unencrypted)
-- No evidence of further exploitation
+- HTTP outbound connection confirmed (Sysmon Event ID 3)
+- Direct IP access with non-standard port
+- No post-click exploitation detected
+- No suspicious child process activity observed
 
-### Incident Classification
+---
+
+## Incident Classification
 
 Phishing exposure without confirmed endpoint compromise.
 
-### Recommended Actions
+---
 
-- Reset user credentials
+## Recommended Actions
+
+- Reset potentially exposed credentials
 - Monitor authentication logs
 - Conduct user awareness training
-- Continue monitoring for abnormal outbound connections
+- Continue monitoring outbound activity
