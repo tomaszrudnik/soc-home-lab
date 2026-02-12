@@ -64,7 +64,8 @@ Interpretation:
 Domain alignment passed policy validation.
 
 ---
-![Authentication Results](screenshots/manual_02_authentication_results.png)
+![SPF DKIM DMARC](screenshots/anual_02_spf_dkim_dmarc.png)
+
 
 
 
